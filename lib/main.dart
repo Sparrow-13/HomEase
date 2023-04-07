@@ -1,14 +1,15 @@
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:major_project/providers/service_provider.dart';
 import 'package:major_project/providers/user_provider.dart';
 import 'package:major_project/providers/worker_provider.dart';
-import 'package:major_project/screens/create_worker.dart';
-import 'package:major_project/screens/homepage_concept_2.dart';
-import 'package:major_project/screens/worker_list.dart';
+import 'package:major_project/screens/SplashScreen.dart';
+import 'package:major_project/screens/homepage_2.dart';
+import 'package:major_project/screens/register_selection.dart';
 import 'package:major_project/user/user_login.dart';
-import 'package:major_project/user/user_signup.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -39,11 +40,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
-        title: 'Flutter Demo',
+        title: 'Home Ease',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MainPage(),
+        home: SplashScreen(),
       ),
     );
   }
@@ -56,9 +57,11 @@ class MainPage extends StatelessWidget {
           stream: FirebaseAuth.instance.userChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return HomePage2();
-            } else
-              return LoginView();
+              // return HomePage2();
+              return HomePage2(0);
+            } else {
+              return RegisterSelectorPage();
+            }
           },
         ),
       );

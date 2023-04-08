@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:major_project/models/bookingModel.dart';
 import 'package:major_project/models/worker_model.dart';
 import 'package:major_project/providers/service_provider.dart';
+import 'package:major_project/screens/homepage_2.dart';
 import 'package:major_project/utils/CustomIcons.dart';
 import 'package:major_project/utils/categories.dart';
 import 'package:major_project/utils/colors.dart';
@@ -93,6 +94,7 @@ class _WorkerProfileState extends State<WorkerProfile> {
             content: Text('Your service request is successfully placed'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          
         } catch (err) {
           SnackBar snackBar = SnackBar(
             content: Text('$err'),
@@ -100,6 +102,8 @@ class _WorkerProfileState extends State<WorkerProfile> {
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       }
+      Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage2(0)));
     }
 
     return Scaffold(
@@ -351,7 +355,8 @@ class _WorkerProfileState extends State<WorkerProfile> {
                                   ],
                                 ),
                               ),
-                            )),
+                            )
+                          ),
                   },
                 ),
               ),

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:major_project/models/bookingModel.dart';
 import 'package:major_project/models/worker_model.dart';
 import 'package:major_project/providers/service_provider.dart';
 import 'package:major_project/screens/homepage_2.dart';
@@ -19,14 +20,21 @@ class WorkerProfile extends StatefulWidget {
   final int rating;
   final int age;
   final String image;
-  const WorkerProfile(
-      {super.key,
-      required this.name,
-      required this.address,
-      required this.category,
-      required this.rating,
-      required this.age,
-      required this.image});
+  final List<BookModel> services;
+  final String time;
+  final String userAddress;
+  const WorkerProfile({
+    super.key,
+    required this.name,
+    required this.address,
+    required this.category,
+    required this.rating,
+    required this.age,
+    required this.image,
+    required this.services,
+    required this.time,
+    required this.userAddress,
+  });
 
   @override
   State<WorkerProfile> createState() => _WorkerProfileState();
@@ -72,6 +80,15 @@ class _WorkerProfileState extends State<WorkerProfile> {
             date: DateTime.now(),
             user: FirebaseAuth.instance.currentUser,
             problemDesc: problemController.text,
+          );
+
+          serviceProvider.addServiceForWorker(
+            workerModel: workerModel,
+            user: user,
+            problemDesc: problemController.text,
+            time: widget.time,
+            services: widget.services,
+            userAddress: widget.userAddress,
           );
           SnackBar snackBar = SnackBar(
             content: Text('Your service request is successfully placed'),

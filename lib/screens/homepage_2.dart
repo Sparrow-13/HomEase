@@ -3,7 +3,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:major_project/book_worker/my_services.dart';
-import 'package:major_project/screens/categories.dart';
 import 'package:major_project/screens/widgets/userdrawer.dart';
 import 'package:major_project/screens/widgets/image_slider.dart';
 import 'package:major_project/user/user_profile.dart';
@@ -211,8 +210,8 @@ class _HomePage2State extends State<HomePage2> {
                                 for (int i = 0; i < categories.length;i++)
                                   CustomContainer(categories[i], counter++ % 5, 110,
                                       110, CategoriesIcons[categories[i]]),
-                                CustomContainer('View More', counter, 110, 110,
-                                    MdiIcons.dotsHorizontalCircle)
+                                // CustomContainer('View More', counter, 110, 110,
+                                //     MdiIcons.dotsHorizontalCircle)
                               ],
                             ),
                           ),

@@ -9,7 +9,7 @@ import 'package:major_project/providers/worker_provider.dart';
 import 'package:major_project/screens/SplashScreen.dart';
 import 'package:major_project/screens/homepage_2.dart';
 import 'package:major_project/screens/register_selection.dart';
-import 'package:major_project/user/user_login.dart';
+
 import 'package:provider/provider.dart';
 
 void main() async {

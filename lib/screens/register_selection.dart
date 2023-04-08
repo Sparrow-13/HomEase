@@ -49,7 +49,7 @@ class RegisterSelectorPageState extends State<RegisterSelectorPage> {
         height: 140,
         width: 140,
         decoration: BoxDecoration(
-            color: (accounttype == index) ? Colors.grey : lightviolet,
+            color: (accounttype == index) ? Colors.grey : lightred,
             borderRadius: BorderRadius.circular(15)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

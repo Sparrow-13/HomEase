@@ -178,20 +178,23 @@ class _SelectWorkerState extends State<SelectWorker> {
               (length == 0)
                   ? Center(child: CircularProgressIndicator())
                   : ListView.builder(
-                          itemCount: length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            WorkerModel data = dataList[index];
-                            //    WorkerModel data = workerProvider.getCarpenterWorkerList[index];
-                            return SingleProduct(
-                              name: data.workerName,
-                              address: data.workerAddress,
-                              age: data.workerAge,
-                              category: data.workerCategory,
-                              image: data.workerImage,
-                              rating: data.workerRating,
-                            );
-                          }),
+                      itemCount: length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        WorkerModel data = dataList[index];
+                        //    WorkerModel data = workerProvider.getCarpenterWorkerList[index];
+                        return SingleProduct(
+                          name: data.workerName,
+                          address: data.workerAddress,
+                          age: data.workerAge,
+                          category: data.workerCategory,
+                          image: data.workerImage,
+                          rating: data.workerRating,
+                          services: widget.services,
+                          time: widget.time,
+                          userAddress: widget.address,
+                        );
+                      }),
               // Align(
               //   alignment: Alignment.bottomCenter,
               //   child: Container(
@@ -204,7 +207,7 @@ class _SelectWorkerState extends State<SelectWorker> {
               //       child: Text('Next',
               //           style: TextStyle(fontSize: 24, color: white)),
               //       onPressed: () => {},
-                  // ),
+              // ),
               //   ),
               // )
             ],

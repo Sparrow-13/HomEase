@@ -1,4 +1,3 @@
-
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
@@ -66,6 +65,8 @@ class _MyServicesState extends State<MyServices> {
                   IconButton(
                       onPressed: () {
                         serviceProvider.deleteUserService(
+                            workerName: data.workerModel.workerName);
+                        serviceProvider.deleteWorkerOrder(
                             workerName: data.workerModel.workerName);
                         setState(() {});
                         SnackBar snackBar = SnackBar(

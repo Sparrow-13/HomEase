@@ -102,8 +102,9 @@ Widget MyDrawer(User user, BuildContext context) {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              FirebaseAuth.instance.signOut();
                               Navigator.of(context).pop(true);
+                              FirebaseAuth.instance.signOut();
+                              
                             },
                             //return true when click on "Yes"
                             style: ElevatedButton.styleFrom(

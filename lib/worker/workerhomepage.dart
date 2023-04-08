@@ -2,12 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:major_project/book_worker/my_services.dart';
+import 'package:major_project/models/service_model.dart';
 import 'package:major_project/user/user_profile.dart';
 import 'package:major_project/utils/CustomIcons.dart';
 import 'package:major_project/utils/activeWork.dart';
 import 'package:major_project/utils/categories.dart';
 import 'package:major_project/utils/colors.dart';
 import 'package:major_project/utils/viewPreviouswork.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/service_provider.dart';
 
 // String userImage = "";
 
@@ -19,10 +23,15 @@ class WorkerHomePage extends StatefulWidget {
 }
 
 class _WorkerHomePageState extends State<WorkerHomePage> {
+  late ServiceProvider serviceProvider;
+
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
+    serviceProvider = Provider.of(context, listen: false);
+    // pass name of worker in this section
+    serviceProvider.fetchWorkerOrderData();
     super.initState();
   }
 
@@ -55,6 +64,11 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    serviceProvider = Provider.of(context);
+
+    List<OrderModel> list = serviceProvider.getWorkerOrderList;
+    int length = list.length;
+    print(list);
     // final user = FirebaseAuth.instance.currentUser!;
     return WillPopScope(
         onWillPop: showExitPopup,
@@ -160,17 +174,25 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                SizedBox(height: 5,),
-                                ActiveWork(
-                                    category: 'Carpenter',
-                                    subcategory: 'Bed',
-                                    services: ['Leg Repair'],
-                                    username: 'Tulsi Das',
-                                    useraddress:
-                                        '37, Gandhi colony, Bhawarkuan, Indore',
-                                    date: '31/03/2023',
-                                    timeslot: '05:00PM - 07:00PM',
-                                    ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                SizedBox(
+                                  height: 320.00 * length,
+                                  child: ListView.builder(
+                                      itemCount: length,
+                                      itemBuilder: (context, index) {
+                                        OrderModel data = list[index];
+                                        return ActiveWork(
+                                            category: data.serviceCategory,
+                                            services: [data.services],
+                                            subcategory: data.serviceItem,
+                                            username: data.userName,
+                                            useraddress: data.userAddress,
+                                            date: "",
+                                            timeslot: data.time);
+                                      }),
+                                ),
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -185,7 +207,6 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                                   height: 10,
                                 ),
                                 PreviousWorkCard(
-
                                     category: 'Carpenter',
                                     subcategory: 'Furniture Repair',
                                     services: ['Chairs'],
@@ -195,31 +216,6 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
                                     date: '29/03/2023',
                                     timeslot: '03:00PM - 05:00PM',
                                     rating: '4.0'),
-                                PreviousWorkCard(
-
-                                    category: 'Carpenter',
-                                    subcategory: 'Door',
-                                    services: [
-                                      'Hinges',
-                                      'Door Installation',
-                                      'Repair'
-                                    ],
-                                    username: 'Rahul Gupta',
-                                    useraddress:
-                                        '15, Guru nanak colony , precanco colony, Indore',
-                                    date: '27/03/2023',
-                                    timeslot: '11:00AM - 01:00PM',
-                                    rating: '5.0'),
-                                PreviousWorkCard(
-                                    
-                                    category: 'Carpenter',
-                                    subcategory: 'Bed',
-                                    services: ['Leg Repair', 'Support Repair'],
-                                    username: 'Asif Sheikh',
-                                    useraddress: '15, karol bagh colony , Chandan Nagar, Indore',
-                                    date: '27/03/2023',
-                                    timeslot: '09:00AM - 11:00AM',
-                                    rating: '3.0'),
                               ],
                             ),
                           ),

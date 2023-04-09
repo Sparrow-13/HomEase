@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:major_project/user/update_profile.dart';
 import 'package:major_project/utils/categories.dart';
 import 'package:major_project/utils/colors.dart';
 import 'package:major_project/worker/workerLogin.dart';
+import 'package:major_project/worker/workerhomepage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class WorkerSignUpView extends StatefulWidget {
@@ -35,16 +37,29 @@ class _SignUpViewState extends State<WorkerSignUpView> {
               child: CircularProgressIndicator(),
             ));
     try {
-      UserCredential user = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.text.trim(),
-              password: passwordController.text.trim());
-      //User? user = FirebaseAuth.instance.currentUser;
-      print(user.additionalUserInfo?.profile);
-      print(user.credential);
-      //  print(user?.phoneNumber);
-      //  print(user?.photoURL);
-    } on FirebaseAuthException catch (e) {
+      // User? user = FirebaseAuth.instance.currentUser;
+
+      FirebaseFirestore.instance
+          .collection("Worker")
+          .doc(emailController.text)
+          .set({
+        "workerName": nameController.text,
+        "workerAddress": addressController.text,
+        "workerPhone": phoneController.text,
+        "workerEmail": emailController.text,
+        "workerCategory": selectedItem,
+        "workerAge": ageController.text,
+        "workerPassword": passwordController.text,
+        "workerImage": "",
+        "workerRating": 3,
+      });
+      String name = nameController.text;
+
+      Navigator.push(
+          context,
+          CupertinoPageRoute(
+              builder: (ctx) => WorkerHomePage(workerName: name)));
+    } on FirebaseException catch (e) {
       print(e);
       FocusManager.instance.primaryFocus?.unfocus();
       String err = e.toString();
@@ -54,8 +69,6 @@ class _SignUpViewState extends State<WorkerSignUpView> {
 
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
-
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -241,8 +254,10 @@ class _SignUpViewState extends State<WorkerSignUpView> {
                           border: Border.all(color: Colors.grey, width: 1)),
                       child: Row(
                         children: [
-                          Icon(MdiIcons.toolbox , color: Colors.grey,),
-                          
+                          Icon(
+                            MdiIcons.toolbox,
+                            color: Colors.grey,
+                          ),
                           SizedBox(
                             width: 20,
                           ),

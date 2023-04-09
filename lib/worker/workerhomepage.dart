@@ -16,7 +16,8 @@ import '../providers/service_provider.dart';
 // String userImage = "";
 
 class WorkerHomePage extends StatefulWidget {
-  const WorkerHomePage({super.key});
+  final String workerName;
+  const WorkerHomePage({super.key, required this.workerName});
 
   @override
   State<WorkerHomePage> createState() => _WorkerHomePageState();
@@ -31,7 +32,7 @@ class _WorkerHomePageState extends State<WorkerHomePage> {
   void initState() {
     serviceProvider = Provider.of(context, listen: false);
     // pass name of worker in this section
-    serviceProvider.fetchWorkerOrderData();
+    serviceProvider.fetchWorkerOrderData(widget.workerName);
     super.initState();
   }
 

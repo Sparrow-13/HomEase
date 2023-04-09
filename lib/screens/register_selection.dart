@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:major_project/user/user_login.dart';
 import 'package:major_project/utils/colors.dart';
 import 'package:major_project/screens/homepage_2.dart';
+import 'package:major_project/worker/workerLogin.dart';
+import 'package:major_project/worker/worker_signUp.dart';
 import 'package:major_project/worker/workerhomepage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -23,17 +25,14 @@ class RegisterSelectorPageState extends State<RegisterSelectorPage> {
     if (accounttype == 0) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => LoginView()));
-    }
-    
-    else if (accounttype == 1) {
+    } else if (accounttype == 1) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WorkerHomePage()));
-    }
-    else{
-       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("Select Type"),
-                duration: Duration(milliseconds: 300),
-              ));
+          context, MaterialPageRoute(builder: (context) => WorkerSignUpView()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Select Type"),
+        duration: Duration(milliseconds: 300),
+      ));
     }
   }
 

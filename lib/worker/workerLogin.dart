@@ -1,12 +1,16 @@
-
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:major_project/main.dart';
 import 'package:major_project/user/constants.dart';
+import 'package:major_project/user/update_profile.dart';
 import 'package:major_project/user/user_signup.dart';
 import 'package:major_project/utils/colors.dart';
+import 'package:major_project/worker/worker_signUp.dart';
+import 'package:major_project/worker/workerhomepage.dart';
 
 class WorkerLogin extends StatefulWidget {
   const WorkerLogin({super.key});
@@ -22,17 +26,39 @@ class _WorkerLoginState extends State<WorkerLogin> {
   final _formKey = GlobalKey<FormState>();
 
   Future LogIn() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    showDialog(
-        context: context,
-        builder: (context) => Center(
-              child: CircularProgressIndicator(),
-            ));
+    // showDialog(
+    //     context: context,
+    //     builder: (context) => Center(
+    //           child: CircularProgressIndicator(),
+    //         ));
     try {
-      await auth.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
-    } on FirebaseAuthException catch (e) {
+      CollectionReference ref = FirebaseFirestore.instance.collection("Worker");
+
+      QuerySnapshot snapshot = await ref.get();
+      bool isValid = false;
+      for (var element in snapshot.docs) {
+        if (element.get("workerName") == emailController.text &&
+            element.get("workerPassword") == passwordController.text) {
+          isValid = true;
+        }
+      }
+
+      if (isValid) {
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (ctx) => WorkerHomePage(
+                      workerName: emailController.text,
+                    )));
+      } else {
+        SnackBar snackBar = SnackBar(
+          content: Text("Invalid email or password. Please try again."),
+          duration: const Duration(seconds: 3),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } on FirebaseException catch (e) {
       print(e);
 
       String err = e.toString();
@@ -43,28 +69,26 @@ class _WorkerLoginState extends State<WorkerLogin> {
 
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
-    navigatorKey.currentState?.popUntil((route) => route.isFirst);
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: false,
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            if (constraints.maxWidth > 600) {
-              return _buildLargeScreen(size);
-            } else {
-              return _buildSmallScreen(size);
-            }
-          },
-        ),
-      )
-    );
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          resizeToAvoidBottomInset: false,
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth > 600) {
+                return _buildLargeScreen(size);
+              } else {
+                return _buildSmallScreen(size);
+              }
+            },
+          ),
+        ));
   }
 
   /// For large screens
@@ -225,7 +249,7 @@ class _WorkerLoginState extends State<WorkerLogin> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpView()));
+                                builder: (context) => WorkerSignUpView()));
                         emailController.clear();
                         passwordController.clear();
                         _formKey.currentState?.reset();

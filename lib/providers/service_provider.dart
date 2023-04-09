@@ -75,13 +75,13 @@ class ServiceProvider with ChangeNotifier {
   }
 
   List<OrderModel> allOrderRequestsData = [];
-  void fetchWorkerOrderData() async {
+  void fetchWorkerOrderData(String workerName) async {
     print("fetching orders");
 
     List<OrderModel> newList = [];
     QuerySnapshot serviceData = await FirebaseFirestore.instance
         .collection("WorkerProfileServices")
-        .doc("Akshat Udeeniya")
+        .doc(workerName)
         .collection("YourOrders")
         .get();
 

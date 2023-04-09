@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:major_project/providers/worker_provider.dart';
 import 'package:major_project/screens/SplashScreen.dart';
 import 'package:major_project/screens/homepage_2.dart';
 import 'package:major_project/screens/register_selection.dart';
+import 'package:major_project/worker/workerhomepage.dart';
 
 import 'package:provider/provider.dart';
 
@@ -58,6 +60,7 @@ class MainPage extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               // return HomePage2();
+
               return HomePage2(0);
             } else {
               return RegisterSelectorPage();
